@@ -13,9 +13,28 @@ import TextField from '@material-ui/core/TextField';
 
 import './App.css';
 
+interface Todo {
+  id: number;
+  text: string;
+  isCompleted: boolean;
+}
+
 interface Props {}
 
-class App extends Component<Props> {
+interface State {
+  todos: Todo[];
+}
+
+class App extends Component<Props, State> {
+  state: State = {
+    todos: [
+      { id: 1, text: 'My first todo', isCompleted: false },
+      { id: 2, text: 'My second todo', isCompleted: true },
+      { id: 3, text: 'My third todo', isCompleted: false },
+      { id: 4, text: 'My fourth todo', isCompleted: true }
+    ]
+  }
+
   render() {
     return (
       <Grid container justify='center'>
@@ -27,17 +46,19 @@ class App extends Component<Props> {
             fullWidth
           />
           <List>
-            <ListItem>
-              <ListItemIcon>
-                <Checkbox edge='start'/>
-              </ListItemIcon>
-              <ListItemText>This is a todo</ListItemText>
-              <ListItemSecondaryAction>
-                <IconButton edge='end'>
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
+            {this.state.todos.map((todo) =>
+              <ListItem key={todo.id}>
+                <ListItemIcon>
+                  <Checkbox edge='start' checked={todo.isCompleted} />
+                </ListItemIcon>
+                <ListItemText>{todo.text}</ListItemText>
+                <ListItemSecondaryAction>
+                  <IconButton edge='end'>
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            )}
           </List>
         </Paper>
       </Grid>
