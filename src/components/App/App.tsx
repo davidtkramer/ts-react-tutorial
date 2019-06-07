@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ChangeEvent } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Grid from '@material-ui/core/Grid';
@@ -22,17 +22,52 @@ interface Todo {
 interface Props {}
 
 interface State {
+  id: number;
+  draft: string;
   todos: Todo[];
 }
 
 class App extends Component<Props, State> {
   state: State = {
+    id: 4,
+    draft: '',
     todos: [
       { id: 1, text: 'My first todo', isCompleted: false },
       { id: 2, text: 'My second todo', isCompleted: true },
       { id: 3, text: 'My third todo', isCompleted: false },
       { id: 4, text: 'My fourth todo', isCompleted: true }
     ]
+  }
+
+  handleDraftChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+    const draft = event.target.value;
+    this.setState((state) => ({ ...state, draft }));
+  }
+
+  handleTodoCreate(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key === 'Enter') {
+      this.setState((state) => ({
+        id: state.id + 1,
+        draft: '',
+        todos: [ ...state.todos, { id: state.id + 1, text: state.draft, isCompleted: false }]
+      }));
+    }
+  }
+
+  handleTodoToggle(todoId: number) {
+    this.setState((state) => ({
+      ...state,
+      todos: state.todos.map((todo) =>
+        todoId === todo.id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+      )
+    }));
+  }
+
+  handleTodoDelete(todoId: number) {
+    this.setState((state) => ({
+      ...state,
+      todos: state.todos.filter((todo) => todoId !== todo.id)
+    }));
   }
 
   render() {
@@ -44,16 +79,23 @@ class App extends Component<Props, State> {
             placeholder='Write a todo...'
             variant='outlined'
             fullWidth
+            value={this.state.draft}
+            onChange={(event) => this.handleDraftChange(event)}
+            onKeyPress={(event) => this.handleTodoCreate(event)}
           />
           <List>
             {this.state.todos.map((todo) =>
               <ListItem key={todo.id}>
                 <ListItemIcon>
-                  <Checkbox edge='start' checked={todo.isCompleted} />
+                  <Checkbox
+                    edge='start'
+                    checked={todo.isCompleted}
+                    onChange={() => this.handleTodoToggle(todo.id)}
+                  />
                 </ListItemIcon>
                 <ListItemText>{todo.text}</ListItemText>
                 <ListItemSecondaryAction>
-                  <IconButton edge='end'>
+                  <IconButton edge='end' onClick={() => this.handleTodoDelete(todo.id)}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
