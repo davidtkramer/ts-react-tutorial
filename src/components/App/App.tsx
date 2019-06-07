@@ -39,13 +39,13 @@ class App extends Component<Props, State> {
     ]
   }
 
-  handleDraftChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+  changeDraft(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     const draft = event.target.value;
-    this.setState((state) => ({ ...state, draft }));
+    this.setState((state) => ({ ...state, draft }));  // foo
   }
 
-  handleTodoCreate(event: React.KeyboardEvent<HTMLDivElement>) {
-    if (event.key === 'Enter') {
+  createTodo(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key === 'Enter' && this.state.draft !== '') {
       this.setState((state) => ({
         id: state.id + 1,
         draft: '',
@@ -54,7 +54,7 @@ class App extends Component<Props, State> {
     }
   }
 
-  handleTodoToggle(todoId: number) {
+  toggleTodo(todoId: number) {
     this.setState((state) => ({
       ...state,
       todos: state.todos.map((todo) =>
@@ -63,7 +63,7 @@ class App extends Component<Props, State> {
     }));
   }
 
-  handleTodoDelete(todoId: number) {
+  deleteTodo(todoId: number) {
     this.setState((state) => ({
       ...state,
       todos: state.todos.filter((todo) => todoId !== todo.id)
@@ -80,8 +80,8 @@ class App extends Component<Props, State> {
             variant='outlined'
             fullWidth
             value={this.state.draft}
-            onChange={(event) => this.handleDraftChange(event)}
-            onKeyPress={(event) => this.handleTodoCreate(event)}
+            onChange={(event) => this.changeDraft(event)}
+            onKeyPress={(event) => this.createTodo(event)}
           />
           <List>
             {this.state.todos.map((todo) =>
@@ -90,12 +90,12 @@ class App extends Component<Props, State> {
                   <Checkbox
                     edge='start'
                     checked={todo.isCompleted}
-                    onChange={() => this.handleTodoToggle(todo.id)}
+                    onChange={() => this.toggleTodo(todo.id)}
                   />
                 </ListItemIcon>
                 <ListItemText>{todo.text}</ListItemText>
                 <ListItemSecondaryAction>
-                  <IconButton edge='end' onClick={() => this.handleTodoDelete(todo.id)}>
+                  <IconButton edge='end' onClick={() => this.deleteTodo(todo.id)}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
