@@ -27,7 +27,12 @@ export default class TodoItem extends Component<Props> {
             onChange={() => toggleTodo(todo.id)}
           />
         </ListItemIcon>
-        <ListItemText>{todo.text}</ListItemText>
+        <ListItemText>
+          {todo.isCompleted
+            ? <span style={{ textDecoration: 'line-through' }}>{todo.text}</span>
+            : todo.text
+          }
+        </ListItemText>
         <ListItemSecondaryAction>
           <IconButton edge='end' onClick={() => deleteTodo(todo.id)}>
             <DeleteIcon />
