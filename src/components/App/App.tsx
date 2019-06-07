@@ -39,9 +39,8 @@ class App extends Component<Props, State> {
     ]
   }
 
-  changeDraft(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
-    const draft = event.target.value;
-    this.setState((state) => ({ ...state, draft }));  // foo
+  changeDraft(draft: string) {
+    this.setState((state) => ({ ...state, draft }));
   }
 
   createTodo(event: React.KeyboardEvent<HTMLDivElement>) {
@@ -80,7 +79,7 @@ class App extends Component<Props, State> {
             variant='outlined'
             fullWidth
             value={this.state.draft}
-            onChange={(event) => this.changeDraft(event)}
+            onChange={(event) => this.changeDraft(event.target.value)}
             onKeyPress={(event) => this.createTodo(event)}
           />
           <List>
