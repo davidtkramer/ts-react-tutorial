@@ -1,6 +1,7 @@
 import React, { Component, KeyboardEvent } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import localforage from 'localforage'
 
 import TodoComposer from '../TodoComposer/TodoComposer';
 import TodoList from '../TodoList/TodoList';
@@ -18,18 +19,23 @@ interface State {
 
 class App extends Component<Props, State> {
   state: State = {
-    id: 4,
+    id: 0,
     draft: '',
-    todos: [
-      { id: 1, text: 'My first todo', isCompleted: false },
-      { id: 2, text: 'My second todo', isCompleted: true },
-      { id: 3, text: 'My third todo', isCompleted: false },
-      { id: 4, text: 'My fourth todo', isCompleted: true }
-    ]
+    todos: []
+  }
+
+  componentDidMount() {
+    localforage.getItem<State>('todos-state').then((state) => {
+      this.setState(() => state);
+    });
+  }
+
+  persistState = () => {
+    localforage.setItem('todos-state', this.state);
   }
 
   changeDraft = (draft: string) => {
-    this.setState((state) => ({ ...state, draft }));
+    this.setState((state) => ({ ...state, draft }), this.persistState);
   }
 
   createTodo = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -38,7 +44,7 @@ class App extends Component<Props, State> {
         id: state.id + 1,
         draft: '',
         todos: [ ...state.todos, { id: state.id + 1, text: state.draft, isCompleted: false }]
-      }));
+      }), this.persistState);
     }
   }
 
@@ -48,14 +54,14 @@ class App extends Component<Props, State> {
       todos: state.todos.map((todo) =>
         todoId === todo.id ? { ...todo, isCompleted: !todo.isCompleted } : todo
       )
-    }));
+    }), this.persistState);
   }
 
   deleteTodo = (todoId: number) => {
     this.setState((state) => ({
       ...state,
       todos: state.todos.filter((todo) => todoId !== todo.id)
-    }));
+    }), this.persistState);
   }
 
   render() {
