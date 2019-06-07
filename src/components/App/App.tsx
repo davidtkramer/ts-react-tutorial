@@ -1,23 +1,12 @@
-import React, { Component, ChangeEvent } from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
-import DeleteIcon from '@material-ui/icons/Delete';
+import React, { Component, KeyboardEvent } from 'react';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
+
+import TodoComposer from '../TodoComposer/TodoComposer';
+import TodoList from '../TodoList/TodoList';
+import { Todo } from '../../models/Todo';
 
 import './App.css';
-
-interface Todo {
-  id: number;
-  text: string;
-  isCompleted: boolean;
-}
 
 interface Props {}
 
@@ -39,12 +28,11 @@ class App extends Component<Props, State> {
     ]
   }
 
-  changeDraft(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
-    const draft = event.target.value;
-    this.setState((state) => ({ ...state, draft }));  // foo
+  changeDraft = (draft: string) => {
+    this.setState((state) => ({ ...state, draft }));
   }
 
-  createTodo(event: React.KeyboardEvent<HTMLDivElement>) {
+  createTodo = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' && this.state.draft !== '') {
       this.setState((state) => ({
         id: state.id + 1,
@@ -54,7 +42,7 @@ class App extends Component<Props, State> {
     }
   }
 
-  toggleTodo(todoId: number) {
+  toggleTodo = (todoId: number) => {
     this.setState((state) => ({
       ...state,
       todos: state.todos.map((todo) =>
@@ -63,7 +51,7 @@ class App extends Component<Props, State> {
     }));
   }
 
-  deleteTodo(todoId: number) {
+  deleteTodo = (todoId: number) => {
     this.setState((state) => ({
       ...state,
       todos: state.todos.filter((todo) => todoId !== todo.id)
@@ -74,34 +62,16 @@ class App extends Component<Props, State> {
     return (
       <Grid container justify='center'>
         <Paper className='todo-list-container'>
-          <TextField
-            id='outlined-bare'
-            placeholder='Write a todo...'
-            variant='outlined'
-            fullWidth
-            value={this.state.draft}
-            onChange={(event) => this.changeDraft(event)}
-            onKeyPress={(event) => this.createTodo(event)}
+          <TodoComposer
+            draft={this.state.draft}
+            changeDraft={this.changeDraft}
+            createTodo={this.createTodo}
           />
-          <List>
-            {this.state.todos.map((todo) =>
-              <ListItem key={todo.id}>
-                <ListItemIcon>
-                  <Checkbox
-                    edge='start'
-                    checked={todo.isCompleted}
-                    onChange={() => this.toggleTodo(todo.id)}
-                  />
-                </ListItemIcon>
-                <ListItemText>{todo.text}</ListItemText>
-                <ListItemSecondaryAction>
-                  <IconButton edge='end' onClick={() => this.deleteTodo(todo.id)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            )}
-          </List>
+          <TodoList
+            todos={this.state.todos}
+            toggleTodo={this.toggleTodo}
+            deleteTodo={this.deleteTodo}
+          />
         </Paper>
       </Grid>
     );
