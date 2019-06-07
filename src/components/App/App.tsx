@@ -25,9 +25,12 @@ class App extends Component<Props, State> {
   }
 
   componentDidMount() {
-    localforage.getItem<State>('todos-state').then((state) => {
-      this.setState(() => state);
-    });
+    this.loadState();
+  }
+
+  async loadState() {
+    const state = await localforage.getItem<State>('todos-state');
+    this.setState(() => state);
   }
 
   persistState = () => {
