@@ -35,7 +35,7 @@ class App extends Component<Props, State> {
   }
 
   changeDraft = (draft: string) => {
-    this.setState((state) => ({ ...state, draft }), this.persistState);
+    this.setState(() => ({ draft }), this.persistState);
   }
 
   createTodo = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -50,7 +50,6 @@ class App extends Component<Props, State> {
 
   toggleTodo = (todoId: number) => {
     this.setState((state) => ({
-      ...state,
       todos: state.todos.map((todo) =>
         todoId === todo.id ? { ...todo, isCompleted: !todo.isCompleted } : todo
       )
@@ -59,7 +58,6 @@ class App extends Component<Props, State> {
 
   deleteTodo = (todoId: number) => {
     this.setState((state) => ({
-      ...state,
       todos: state.todos.filter((todo) => todoId !== todo.id)
     }), this.persistState);
   }
