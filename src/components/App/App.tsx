@@ -1,4 +1,4 @@
-import React, { Component, KeyboardEvent } from 'react';
+import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
@@ -32,14 +32,12 @@ class App extends Component<Props, State> {
     this.setState(() => ({ draft }));
   }
 
-  createTodo = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter' && this.state.draft !== '') {
-      this.setState((state) => ({
-        id: state.id + 1,
-        draft: '',
-        todos: [ ...state.todos, { id: state.id + 1, text: state.draft, isCompleted: false }]
-      }));
-    }
+  createTodo = () => {
+    this.setState((state) => ({
+      id: state.id + 1,
+      draft: '',
+      todos: [ ...state.todos, { id: state.id + 1, text: state.draft, isCompleted: false }]
+    }));
   }
 
   toggleTodo = (todoId: number) => {
