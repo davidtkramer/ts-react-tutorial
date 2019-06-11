@@ -41,14 +41,12 @@ class App extends Component<Props, State> {
     this.setState(() => ({ draft }), this.persistState);
   }
 
-  createTodo = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter' && this.state.draft !== '') {
-      this.setState((state) => ({
-        id: state.id + 1,
-        draft: '',
-        todos: [ ...state.todos, { id: state.id + 1, text: state.draft, isCompleted: false }]
-      }), this.persistState);
-    }
+  createTodo = () => {
+    this.setState((state) => ({
+      id: state.id + 1,
+      draft: '',
+      todos: [ ...state.todos, { id: state.id + 1, text: state.draft, isCompleted: false }]
+    }), this.persistState);
   }
 
   toggleTodo = (todoId: number) => {
