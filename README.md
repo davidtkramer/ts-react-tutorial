@@ -18,6 +18,12 @@ Run the app in the development mode. Open [http://localhost:3000](http://localho
 yarn start
 ```
 
+Checkout the first branch
+
+```
+git checkout 1-intro
+```
+
 ## Directory
 
 Each step in the tutorial has a corresponding branch. Run `git checkout [branch name]` to view the branch locally or use the links below to view on github.
