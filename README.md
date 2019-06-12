@@ -12,16 +12,16 @@ Install dependencies.
 yarn install
 ```
 
-Run the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits.
-
-```
-yarn start
-```
-
 Checkout the first branch
 
 ```
 git checkout 1-intro
+```
+
+Run the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits.
+
+```
+yarn start
 ```
 
 ## Directory
