@@ -37,4 +37,4 @@ Each step in the tutorial has a corresponding branch. Run `git checkout [branch 
 | `5-conditional-rendering` | [Conditional Rendering](https://github.com/davidtkramer/ts-react-tutorial/tree/5-conditional-rendering) |
 | `6-async-and-lifecycle-methods-1` | [Async and Lifecycle Methods - Part 1](https://github.com/davidtkramer/ts-react-tutorial/tree/6-async-and-lifecycle-methods-1) |
 | `6-async-and-lifecycle-methods-2` | [Async and Lifecycle Methods - Part 2](https://github.com/davidtkramer/ts-react-tutorial/tree/6-async-and-lifecycle-methods-2) |
-| `7-filtering` | [Filtering](https://github.com/davidtkramer/ts-react-tutorial/tree/filtering) |
+| `7-filtering` | [Filtering](https://github.com/davidtkramer/ts-react-tutorial/tree/7-filtering) |
